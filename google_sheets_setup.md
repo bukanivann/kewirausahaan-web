@@ -1,6 +1,6 @@
 # Panduan Integrasi Google Spreadsheet Otomatis (Google Apps Script)
 
-Website **Kethai & Co** sudah dirancang dengan fitur **Dual-Action Checkout**:
+Website **Kethai.co** sudah dirancang dengan fitur **Dual-Action Checkout**:
 1. Setiap pesanan pelanggan otomatis tercatat ke **Google Spreadsheet** harian (seperti formulir Google Form otomatis).
 2. Sekaligus mengarahkan pelanggan ke **WhatsApp** dengan rincian varian ketan susu, topping pilihan, dan metode pembayaran yang siap kirim.
 
@@ -355,4 +355,4 @@ Simpan file [app.js](file:///c:/Users/Navii/Documents/Coding/Kewirausahaan/app.j
 Bahkan jika kamu belum sempat memasang Google Sheets:
 - Semua pesanan **tetap otomatis tersimpan di browser** (Database Lokal).
 - Kamu bisa mengklik tombol **"Lihat Rekap Spreadsheet Pesanan"** di footer website kapan saja.
-- Terdapat tombol **"Download CSV / Excel"** untuk langsung mendownload rekap pesanan harian Kethai & Co ke laptop kamu!
+- Terdapat tombol **"Download CSV / Excel"** untuk langsung mendownload rekap pesanan harian Kethai.co ke laptop kamu!

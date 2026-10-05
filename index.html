@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kethai & Co — Ketan Susu</title>
+    <title>Kethai.co — Ketan Susu</title>
     <meta name="description"
-        content="Pesan Ketan Susu Original legit & pulen khas Kethai & Co hanya Rp 7.000. Pesan instant direct via WhatsApp tanpa biaya platform!">
+        content="Pesan Ketan Susu Original legit & pulen khas Kethai.co hanya Rp 7.000. Pesan instant direct via WhatsApp tanpa biaya platform!">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,7 +95,7 @@
     <!-- Main Products Catalog Showcase: Single Product with Interactive Gallery & Add-on Switcher -->
     <section id="products" class="products-section">
         <div class="section-header">
-            <h2>Ketan Susu <span class="gradient-text">Kethai & Co</span></h2>
+            <h2>Ketan Susu <span class="gradient-text">Kethai.co</span></h2>
         </div>
 
         <div class="single-product-wrapper">
@@ -104,7 +104,7 @@
                 <!-- Left Side: Interactive Photo Gallery -->
                 <div class="product-gallery-side">
                     <div class="gallery-main-view">
-                        <img src="images/ketan_original.jpg" alt="Ketan Susu Original Kethai & Co" id="mainGalleryImg"
+                        <img src="images/ketan_original.jpg" alt="Ketan Susu Original Kethai.co" id="mainGalleryImg"
                             class="gallery-main-img">
                         <div class="gallery-active-pill" id="galleryActiveLabel">
                             <i class="fa-solid fa-sparkles"></i> Ketan Susu Original
@@ -116,7 +116,7 @@
                 <div class="product-info-side">
                     <h2 class="info-title">Ketan Susu Original</h2>
                     <p class="info-desc">
-                        Ketan pulen gurih disiram susu kental manis legit creamy khas Kethai & Co. Dibuat dari beras ketan pilihan dengan cita rasa manis gurih yang pas dan autentik.
+                        Ketan pulen gurih disiram susu kental manis legit creamy khas Kethai.co. Dibuat dari beras ketan pilihan dengan cita rasa manis gurih yang pas dan autentik.
                     </p>
 
                     <!-- Product Key Highlights -->
@@ -204,7 +204,7 @@
     <div class="modal-overlay" id="cartModal">
         <div class="modal-container cart-modal-box">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-basket-shopping"></i> Keranjang Pesanan Kethai & Co</h3>
+                <h3><i class="fa-solid fa-basket-shopping"></i> Keranjang Pesanan Kethai.co</h3>
                 <button class="close-modal-btn" onclick="closeCartModal()">&times;</button>
             </div>
 
@@ -218,6 +218,10 @@
                     <div class="summary-row">
                         <span>Subtotal Pesanan</span>
                         <strong id="cartSubtotal">Rp 0</strong>
+                    </div>
+                    <div class="summary-row" id="shippingFeeRow">
+                        <span>Ongkos Kirim <small id="shippingFeeNote" style="color: var(--text-muted); font-size: 0.85em;">(Kampus B & C)</small></span>
+                        <strong id="cartShippingFee">Rp 0</strong>
                     </div>
                     <div class="summary-divider"></div>
                     <div class="summary-row total-row">
@@ -252,9 +256,9 @@
                             <span class="required">*</span></label>
                         <select id="custCampus" required onchange="handleLocationChange()">
                             <option value="" disabled selected>-- Pilih Lokasi / Kampus --</option>
-                            <option value="Kampus Stasiun Bumi (SB)">Kampus Stasiun Bumi (SB)</option>
-                            <option value="Kampus B">Kampus B (Minimal 7 Pcs)</option>
-                            <option value="Kampus C">Kampus C (Minimal 7 Pcs)</option>
+                            <option value="Kampus Stasiun Bumi (SB)">Kampus Stasiun Bumi (SB) - Free Ongkir</option>
+                            <option value="Kampus B">Kampus B (Min. 7 Pcs + Ongkir Rp 15.000)</option>
+                            <option value="Kampus C">Kampus C (Min. 7 Pcs + Ongkir Rp 15.000)</option>
                             <option value="Lainnya">Lainnya (Luar Kampus)</option>
                         </select>
                         <div class="campus-min-order-alert" id="campusMinOrderNotice" style="display: none;">
@@ -370,13 +374,13 @@
                             <div class="qris-preview-holder">
                                 <div class="qris-card-header-badge">
                                     <span class="badge-qris-title"><i class="fa-solid fa-qrcode"></i> KODE QRIS RESMI
-                                        KETHAI & CO</span>
+                                        KETHAI.CO</span>
                                     <span class="badge-qris-sub">Scan langsung melalui kamera m-Banking atau E-Wallet
                                         pilihanmu</span>
                                 </div>
 
                                 <div class="qris-image-wrap qris-full-view">
-                                    <img src="images/qris_ketaico.jpg" alt="QRIS Kethai & Co" id="qrisCheckoutImg"
+                                    <img src="images/qris_ketaico.jpg" alt="QRIS Kethai.co" id="qrisCheckoutImg"
                                         class="qris-actual-img">
                                 </div>
 
@@ -538,7 +542,7 @@
                     </div>
 
                     <div class="qris-qr-frame">
-                        <img src="images/qris_ketaico.jpg" alt="QRIS Kethai & Co Resmi" class="qris-img-tag">
+                        <img src="images/qris_ketaico.jpg" alt="QRIS Kethai.co Resmi" class="qris-img-tag">
                         <div class="qris-scan-line"></div>
                     </div>
 
@@ -593,7 +597,7 @@
                 <div class="success-headline">
                     <h2>Pesanan Berhasil Diverifikasi!</h2>
                     <p id="successSubtitleText">Pembayaran QRIS telah tervalidasi dan otomatis tercatat ke Spreadsheet
-                        rekapitulasi Kethai & Co.</p>
+                        rekapitulasi Kethai.co.</p>
                 </div>
 
                 <!-- Digital Receipt Card -->
@@ -601,7 +605,7 @@
                     <div class="receipt-cutout-top"></div>
                     <div class="receipt-header-row">
                         <div class="receipt-brand">
-                            <strong>KETHAI & CO</strong>
+                            <strong>KETHAI.CO</strong>
                             <small>Ketan Susu Tradisional Modern</small>
                         </div>
                         <span class="receipt-badge-status" id="receiptStatusBadge">
@@ -762,7 +766,7 @@
     <div class="modal-overlay" id="ordersModal">
         <div class="modal-container orders-modal-box">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-table"></i> Rekap Pesanan Harian Kethai & Co</h3>
+                <h3><i class="fa-solid fa-table"></i> Rekap Pesanan Harian Kethai.co</h3>
                 <button class="close-modal-btn" onclick="closeOrdersModal()">&times;</button>
             </div>
             <div class="modal-body orders-modal-body">
@@ -883,7 +887,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Kethai & Co. Dibuat dengan cinta, cita rasa & kemudahan.</p>
+            <p>&copy; 2026 Kethai.co. Dibuat dengan cinta, cita rasa & kemudahan.</p>
         </div>
     </footer>
 

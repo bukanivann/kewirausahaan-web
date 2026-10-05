@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KETHAI & CO - JAVASCRIPT APPLICATION (INTERACTIVE GALLERY & CONFIGURATOR)
+   KETHAI.CO - JAVASCRIPT APPLICATION (INTERACTIVE GALLERY & CONFIGURATOR)
    Spesialis Ketan Susu Nusantara Modern dengan Galeri Dinamis & Add-on
    ========================================================================== */
 
@@ -369,10 +369,21 @@ function removeFromCart(index) {
     updateCartUI();
 }
 
+function getShippingFee() {
+    const campusSelect = document.getElementById('custCampus');
+    if (!campusSelect) return 0;
+    const campus = campusSelect.value;
+    if (campus === 'Kampus B' || campus === 'Kampus C') {
+        return 15000;
+    }
+    return 0;
+}
+
 function updateCartUI() {
     const cartCountBadge = document.getElementById('cartCountBadge');
     const cartItemsList = document.getElementById('cartItemsList');
     const cartSubtotal = document.getElementById('cartSubtotal');
+    const cartShippingFee = document.getElementById('cartShippingFee');
     const cartTotal = document.getElementById('cartTotal');
 
     const totalItemCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
@@ -387,7 +398,7 @@ function updateCartUI() {
                 <div class="empty-cart-state">
                     <i class="fa-solid fa-bowl-rice"></i>
                     <p>Keranjang kamu masih kosong</p>
-                    <small>Yuk buat kombinasi Ketan Susu Kethai & Co favoritmu!</small>
+                    <small>Yuk buat kombinasi Ketan Susu Kethai.co favoritmu!</small>
                 </div>
             `;
         }
@@ -434,8 +445,28 @@ function updateCartUI() {
         });
     }
 
+    const shippingFee = subtotal > 0 ? getShippingFee() : 0;
+    const grandTotal = subtotal + shippingFee;
+
     if (cartSubtotal) cartSubtotal.innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
-    if (cartTotal) cartTotal.innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+    
+    if (cartShippingFee) {
+        if (shippingFee > 0) {
+            cartShippingFee.innerText = `Rp ${shippingFee.toLocaleString('id-ID')}`;
+            cartShippingFee.style.color = 'var(--text-main)';
+        } else {
+            const campus = document.getElementById('custCampus')?.value;
+            if (campus === 'Kampus Stasiun Bumi (SB)') {
+                cartShippingFee.innerText = 'Gratis';
+                cartShippingFee.style.color = 'var(--accent-success)';
+            } else {
+                cartShippingFee.innerText = 'Rp 0';
+                cartShippingFee.style.color = 'var(--text-muted)';
+            }
+        }
+    }
+
+    if (cartTotal) cartTotal.innerText = `Rp ${grandTotal.toLocaleString('id-ID')}`;
 
     // Update status Booster Topping Ekstra (Wajib ada menu utama)
     const hasMainMenu = state.cart.some(item => item.category !== 'Extra Topping');
@@ -477,7 +508,9 @@ function updateCartUI() {
 // ==========================================================================
 
 function updateQrisAmountDisplay() {
-    const totalAmount = state.cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+    const subtotal = state.cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+    const shippingFee = subtotal > 0 ? getShippingFee() : 0;
+    const totalAmount = subtotal + shippingFee;
     const formatted = totalAmount > 0 ? `Rp ${totalAmount.toLocaleString('id-ID')}` : 'Rp 0';
 
     const displayEl = document.getElementById('qrisDynamicAmountDisplay');
@@ -488,7 +521,9 @@ function updateQrisAmountDisplay() {
 }
 
 function copyQrisAmount() {
-    const totalAmount = state.cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+    const subtotal = state.cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+    const shippingFee = subtotal > 0 ? getShippingFee() : 0;
+    const totalAmount = subtotal + shippingFee;
     if (totalAmount <= 0) {
         showToast('⚠️ Keranjang belanja masih kosong.');
         return;
@@ -865,6 +900,8 @@ function handleLocationChange() {
     }
 
     updateCampusMinOrderValidation();
+    updateCartUI();
+    updateQrisAmountDisplay();
     updateWAPreview();
 }
 
@@ -894,11 +931,11 @@ function generateWAMessage() {
     }
 
     let itemsText = '';
-    let grandTotal = 0;
+    let subtotal = 0;
 
     state.cart.forEach((item, index) => {
         const itemTotal = item.unitPrice * item.qty;
-        grandTotal += itemTotal;
+        subtotal += itemTotal;
 
         let addonDetail = '';
         if (item.addons && item.addons.length > 0) {
@@ -908,17 +945,26 @@ function generateWAMessage() {
         itemsText += `${index + 1}. *${item.name}*${addonDetail}\n   - ${item.qty} porsi x Rp ${item.unitPrice.toLocaleString('id-ID')} = *Rp ${itemTotal.toLocaleString('id-ID')}*\n`;
     });
 
+    const shippingFee = subtotal > 0 ? getShippingFee() : 0;
+    const grandTotal = subtotal + shippingFee;
+
+    let priceDetails = `*SUBTOTAL PESANAN:* Rp ${subtotal.toLocaleString('id-ID')}\n`;
+    if (shippingFee > 0) {
+        priceDetails += `*ONGKOS KIRIM (${campus}):* Rp ${shippingFee.toLocaleString('id-ID')} _(Flat Rate)_\n`;
+    }
+    priceDetails += `*TOTAL PEMBAYARAN:* Rp ${grandTotal.toLocaleString('id-ID')}`;
+
     const paymentText = state.paymentMethod === 'qris'
         ? `*METODE PEMBAYARAN:* QRIS (E-Wallet & Bank)\n_(Bukti transfer/screenshot pembayaran sudah saya unggah & siap saya kirimkan)_`
         : `*METODE PEMBAYARAN:* Bayar Tunai / Langsung (COD)\n_(Siapkan uang pas saat pesanan diantar ya kak)_`;
 
     const messageTemplate =
-        `Halo Admin ${activeAdmin.name} (Kethai & Co)!
+        `Halo Admin ${activeAdmin.name} (Kethai.co)!
 Saya mau order Ketan Susu nikmat nih:
 
-*RINCIAN PESANAN KETHAI & CO:*
+*RINCIAN PESANAN KETHAI.CO:*
 ${itemsText}
-*TOTAL PEMBAYARAN:* Rp ${grandTotal.toLocaleString('id-ID')}
+${priceDetails}
 _(Bebas Biaya Platform / 0% Mark-Up)_
 
 ${paymentText}
@@ -1051,7 +1097,7 @@ function updateOrderStatusLocally(orderId, newStatus) {
 }
 
 async function clearOrdersLog() {
-    if (!confirm('Apakah kamu yakin ingin menghapus data riwayat uji coba pesanan Kethai & Co? Data di Google Spreadsheet juga akan otomatis dibersihkan.')) {
+    if (!confirm('Apakah kamu yakin ingin menghapus data riwayat uji coba pesanan Kethai.co? Data di Google Spreadsheet juga akan otomatis dibersihkan.')) {
         return;
     }
 
@@ -1402,7 +1448,7 @@ function exportOrdersToCSV() {
     link.click();
     document.body.removeChild(link);
 
-    showToast('📥 Rekap pesanan CSV Kethai & Co berhasil didownload!');
+    showToast('📥 Rekap pesanan CSV Kethai.co berhasil didownload!');
 }
 
 // ==========================================================================
@@ -1483,13 +1529,16 @@ function handleFormSubmit(e) {
     const dateFormatted = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
     const timeFormatted = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
-    let grandTotal = 0;
+    let subtotal = 0;
     const itemsList = state.cart.map(item => {
         const itemTotal = item.unitPrice * item.qty;
-        grandTotal += itemTotal;
+        subtotal += itemTotal;
         const addonsList = item.addons && item.addons.length > 0 ? ` [Topping: ${item.addons.map(a => a.name).join(', ')}]` : '';
         return `${item.name}${addonsList} (${item.qty}x)`;
     });
+
+    const shippingFee = getShippingFee();
+    const grandTotal = subtotal + shippingFee;
 
     const activeAdmin = state.admins.find(a => a.id === state.selectedAdminId) || state.admins[0];
 
@@ -1669,7 +1718,7 @@ function openPaymentSuccessModal(order) {
     const waBtn = document.getElementById('successWABtn');
     if (waBtn) {
         const waMsg =
-            `Halo Admin ${order.adminName} (Kethai & Co)!
+            `Halo Admin ${order.adminName} (Kethai.co)!
 Saya sudah menyelesaikan PEMBAYARAN QRIS untuk pesanan saya:
 
 *STATUS:* SUDAH DIBAYAR / LUNAS (Verified di Web)
@@ -1702,7 +1751,7 @@ function downloadReceiptTxt() {
 
     const content =
         `==============================================
-        STRUK PEMBAYARAN KETHAI & CO
+        STRUK PEMBAYARAN KETHAI.CO
          Ketan Susu Tradisional Modern
 ==============================================
 ID Pesanan   : ${order.id}
@@ -1721,7 +1770,7 @@ Metode       : QRIS Merchant (Verified)
 Catatan      : ${order.customerNotes}
 ==============================================
 Data resmi tercatat di Google Spreadsheet Harian.
-Terima kasih telah memesan di Kethai & Co! 🙏
+Terima kasih telah memesan di Kethai.co! 🙏
 ==============================================`;
 
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
