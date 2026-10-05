@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kethai & Co — Ketan Susu</title>
+    <meta name="description"
+        content="Pesan Ketan Susu Original legit & pulen khas Kethai & Co hanya Rp 7.000. Pesan instant direct via WhatsApp tanpa biaya platform!">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Custom -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Background Dynamic Ambient Glow -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Header / Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <img src="images/logo.png" alt="Kethai.co Logo" class="brand-logo-img">
+            </a>
+
+            <nav class="nav-links">
+                <a href="#hero"><i class="fa-solid fa-house"></i> Beranda</a>
+                <a href="#products"><i class="fa-solid fa-utensils"></i> Detail Menu</a>
+                <a href="#how-it-works"><i class="fa-solid fa-circle-question"></i> Cara Pesan</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="cart-trigger-btn" id="cartTrigger" onclick="openCartModal()">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="cart-label">Pesanan</span>
+                    <span class="cart-count-badge" id="cartCountBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Clean High-Impact Centered Layout) -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <a href="https://www.instagram.com/kethai.co/" target="_blank" rel="noopener noreferrer"
+                class="hero-social-pill" title="Ikuti Instagram @kethai.co">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Follow Instagram Resmi: <strong>@kethai.co</strong></span>
+                <i class="fa-solid fa-arrow-up-right-from-square ig-external-icon"></i>
+            </a>
+            <h1 class="hero-title">
+                Ketan Susu <br>
+                <span class="gradient-text">Manis, Legit & Pulen!</span>
+            </h1>
+            <p class="hero-subtitle">
+                Solusi ngemil nikmat & mengenyangkan! Ketan pulen gurih disiram susu kental manis creamy.
+                Hanya Rp 7.000, pesan langsung via Website atau WhatsApp
+            </p>
+            <div class="hero-cta-group">
+                <a href="#products" class="btn btn-primary btn-glow">
+                    <i class="fa-solid fa-bowl-rice"></i> Pesan Ketan Susu Original
+                </a>
+                <a href="#how-it-works" class="btn btn-secondary">
+                    <i class="fa-solid fa-circle-question"></i> Cara Pesan
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Beras Ketan Pulen Asli</span>
+                    <span class="stat-number">100%</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-label">Harga Mulai Dari</span>
+                    <span class="stat-number">7K</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Products Catalog Showcase: Single Product with Interactive Gallery & Add-on Switcher -->
+    <section id="products" class="products-section">
+        <div class="section-header">
+            <h2>Ketan Susu <span class="gradient-text">Kethai & Co</span></h2>
+        </div>
+
+        <div class="single-product-wrapper">
+            <div class="single-product-card">
+
+                <!-- Left Side: Interactive Photo Gallery -->
+                <div class="product-gallery-side">
+                    <div class="gallery-main-view">
+                        <img src="images/ketan_original.jpg" alt="Ketan Susu Original Kethai & Co" id="mainGalleryImg"
+                            class="gallery-main-img">
+                        <div class="gallery-active-pill" id="galleryActiveLabel">
+                            <i class="fa-solid fa-sparkles"></i> Ketan Susu Original
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Configurator & Order Form -->
+                <div class="product-info-side">
+                    <h2 class="info-title">Ketan Susu Original</h2>
+                    <p class="info-desc">
+                        Ketan pulen gurih disiram susu kental manis legit creamy khas Kethai & Co. Dibuat dari beras ketan pilihan dengan cita rasa manis gurih yang pas dan autentik.
+                    </p>
+
+                    <!-- Product Key Highlights -->
+                    <div class="product-features-list">
+                        <div class="product-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>100% Beras Ketan Pulen Pilihan</span>
+                        </div>
+                        <div class="product-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Susu Kental Manis Gurih & Creamy</span>
+                        </div>
+                        <div class="product-feature-item">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>Fresh & Higienis Dibuat Setiap Hari</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Dynamic Price Display Banner -->
+                    <div class="dynamic-price-banner">
+                        <div class="price-main-block">
+                            <span class="price-currency">Rp</span>
+                            <span class="price-big-amount" id="dynamicPriceAmount">7.000</span>
+                        </div>
+                        <span class="price-breakdown-tag" id="priceBreakdownTag">Porsi Pas & Pulen</span>
+                    </div>
+
+                    <!-- Order Action Bar: Qty + Add to Cart Button -->
+                    <div class="order-action-bar">
+                        <div class="order-qty-box">
+                            <button type="button" onclick="changeProductQty(-1)" title="Kurangi Jumlah">−</button>
+                            <span id="productQtyDisplay">1</span>
+                            <button type="button" onclick="changeProductQty(1)" title="Tambah Jumlah">+</button>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-add-main" id="btnAddToCartConfig"
+                            onclick="addConfiguredProductToCart()">
+                            <i class="fa-solid fa-cart-plus"></i> <span id="btnCtaText">Tambah ke Keranjang — Rp
+                                7.000</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Step Section -->
+    <section id="how-it-works" class="steps-section">
+        <div class="section-header">
+            <span class="section-tag">Mudah & Praktis</span>
+            <h2>Alur Pemesanan <span class="gradient-text">Direct WhatsApp</span></h2>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <div class="step-icon"><i class="fa-solid fa-bowl-rice"></i></div>
+                <div class="step-content">
+                    <h3>Pilih Porsi Ketan</h3>
+                    <p>Tentukan jumlah porsi Ketan Susu Original yang ingin kamu nikmati, lalu klik tombol Tambah ke Keranjang.</p>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <div class="step-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                <div class="step-content">
+                    <h3>Isi Data Ringkas</h3>
+                    <p>Masukkan nama pemesan, alamat pengiriman atau nama kosan, dan catatan pesanan khusus di formulir
+                        keranjang.</p>
+                </div>
+            </div>
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <div class="step-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                <div class="step-content">
+                    <h3>Direct Checkout WA</h3>
+                    <p>Format rincian pesanan rapi otomatis siap kirim ke WhatsApp penjual. Konfirmasi & bayar via QRIS
+                        / Tunai!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart / Quick Order Drawer Modal -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-container cart-modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-basket-shopping"></i> Keranjang Pesanan Kethai & Co</h3>
+                <button class="close-modal-btn" onclick="closeCartModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- List of items in cart -->
+                <div id="cartItemsList" class="cart-items-list">
+                    <!-- Populated dynamically by JS -->
+                </div>
+
+                <div class="cart-summary-box">
+                    <div class="summary-row">
+                        <span>Subtotal Pesanan</span>
+                        <strong id="cartSubtotal">Rp 0</strong>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-row total-row">
+                        <span>Total Estimasi</span>
+                        <strong id="cartTotal" class="gradient-text">Rp 0</strong>
+                    </div>
+                </div>
+
+                <!-- Customer Order Form -->
+                <form id="whatsappForm" class="checkout-form" onsubmit="handleFormSubmit(event)">
+                    <h4 class="form-title"><i class="fa-solid fa-user-pen"></i> Detail Pemesan</h4>
+
+                    <div class="form-group">
+                        <label for="custName"><i class="fa-solid fa-user"></i> Nama Lengkap / Panggilan <span
+                                class="required">*</span></label>
+                        <input type="text" id="custName" placeholder="Contoh: Dimas Pratama" required
+                            oninput="updateWAPreview()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custPhone"><i class="fa-brands fa-whatsapp"></i> Nomor WhatsApp <span
+                                class="required">*</span></label>
+                        <input type="tel" id="custPhone" placeholder="Contoh: 081234567890" inputmode="numeric"
+                            maxlength="15" required
+                            oninput="this.value = this.value.replace(/\D/g, ''); updateWAPreview()">
+                        <small class="form-hint-note"><i class="fa-solid fa-shield-halved"></i> Nomor kamu aman & privat
+                            (hanya angka, min. 10 digit).</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custCampus"><i class="fa-solid fa-building-columns"></i> Alamat Pengiriman / Kampus
+                            <span class="required">*</span></label>
+                        <select id="custCampus" required onchange="handleLocationChange()">
+                            <option value="" disabled selected>-- Pilih Lokasi / Kampus --</option>
+                            <option value="Kampus Stasiun Bumi (SB)">Kampus Stasiun Bumi (SB)</option>
+                            <option value="Kampus B">Kampus B (Minimal 7 Pcs)</option>
+                            <option value="Kampus C">Kampus C (Minimal 7 Pcs)</option>
+                            <option value="Lainnya">Lainnya (Luar Kampus)</option>
+                        </select>
+                        <div class="campus-min-order-alert" id="campusMinOrderNotice" style="display: none;">
+                            <i class="fa-solid fa-circle-exclamation alert-icon" id="minOrderIcon"></i>
+                            <div class="campus-min-order-text">
+                                <strong id="minOrderTitle">Minimal Order 7 Pcs (<span id="minOrderCampusLabel">Kampus
+                                        B</span>)</strong>
+                                <p id="minOrderDesc">Pengantaran ke kampus ini memiliki batas minimal 7 porsi ketan
+                                    susu.</p>
+                                <div class="min-order-progress-bar">
+                                    <div class="min-order-progress-fill" id="minOrderProgressFill" style="width: 0%;">
+                                    </div>
+                                </div>
+                                <div class="min-order-status-row">
+                                    <span>Porsi saat ini: <strong id="currentPcsCount">0</strong> / 7 pcs</span>
+                                    <span id="minOrderShortage" class="shortage-badge">Kurang 7 pcs lagi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="custMajorGroup" style="display: none;">
+                        <label for="custMajor"><i class="fa-solid fa-graduation-cap"></i> Jurusan (Khusus Kampus SB)
+                            <span class="required">*</span></label>
+                        <select id="custMajor" onchange="updateWAPreview()">
+                            <option value="" disabled selected>-- Pilih Jurusan --</option>
+                            <option value="Teknik Telekomunikasi">Teknik Telekomunikasi</option>
+                            <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
+                            <option value="Informatika">Informatika</option>
+                        </select>
+                        <small class="form-hint-note" id="majorHintNote">Pilih jurusan kamu untuk memudahkan kurir kami
+                            menemukan lokasi di Kampus SB.</small>
+                    </div>
+
+                    <div class="form-group" id="custOtherAddressGroup" style="display: none;">
+                        <label for="custAddressOther"><i class="fa-solid fa-location-dot"></i> Alamat Lengkap Luar
+                            Kampus / Kosan <span class="required">*</span></label>
+                        <textarea id="custAddressOther" rows="2"
+                            placeholder="Tuliskan nama jalan, nomor rumah, nama kosan, atau patokan lengkap..."
+                            oninput="updateWAPreview()"></textarea>
+                        <small class="form-hint-note"><i class="fa-solid fa-circle-info"></i> Masukkan alamat dan
+                            patokan jelas agar pesanan tiba tepat waktu.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custNotes"><i class="fa-solid fa-note-sticky"></i> Catatan Khusus (Opsional)</label>
+                        <input type="text" id="custNotes" placeholder="Contoh: Susunya agak banyak / Sendok dipisah"
+                            oninput="updateWAPreview()">
+                    </div>
+
+                    <!-- Payment Method Selector -->
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-wallet"></i> Metode Pembayaran <span
+                                class="required">*</span></label>
+                        <div class="payment-options-grid">
+                            <div class="payment-option-card active" id="opt-qris" onclick="selectPaymentMethod('qris')">
+                                <input type="radio" name="paymentMethodRadio" id="radio-qris" value="qris" checked>
+                                <div class="payment-card-content">
+                                    <div class="payment-icon qris-icon"><i class="fa-solid fa-qrcode"></i></div>
+                                    <div class="payment-info">
+                                        <strong>QRIS (E-Wallet & Bank)</strong>
+                                        <small>GoPay, OVO, Dana, Shopee, BCA/Bank</small>
+                                    </div>
+                                </div>
+                                <span class="payment-check"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+
+                            <div class="payment-option-card" id="opt-cash" onclick="selectPaymentMethod('cash')">
+                                <input type="radio" name="paymentMethodRadio" id="radio-cash" value="cash">
+                                <div class="payment-card-content">
+                                    <div class="payment-icon cash-icon"><i class="fa-solid fa-money-bill-wave"></i>
+                                    </div>
+                                    <div class="payment-info">
+                                        <strong>Bayar Tunai / Langsung</strong>
+                                        <small>Bayar saat pesanan tiba (COD)</small>
+                                    </div>
+                                </div>
+                                <span class="payment-check"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- Catatan Jadwal Pre-Order -->
+                        <div class="payment-preorder-notice">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <div class="notice-body">
+                                <strong>Catatan Jadwal Pre-Order:</strong>
+                                <p>Jika pre-order di luar tanggal yang ditentukan akan dikirim saat pre-order
+                                    selanjutnya.</p>
+                            </div>
+                        </div>
+
+                        <!-- QRIS Dynamic Payment Section -->
+                        <div id="qrisPaymentSection" class="qris-checkout-card">
+                            <!-- Dynamic Amount Highlight Card -->
+                            <div class="qris-amount-highlight">
+                                <div class="amount-label-row">
+                                    <span><i class="fa-solid fa-calculator"></i> Total Tagihan Pesanan:</span>
+                                </div>
+                                <div class="amount-val-row">
+                                    <h3 id="qrisDynamicAmountDisplay">Rp 0</h3>
+                                    <button type="button" class="btn-copy-amount" onclick="copyQrisAmount()"
+                                        title="Salin Nominal Pas">
+                                        <i class="fa-solid fa-copy"></i> Salin Nominal
+                                    </button>
+                                </div>
+                                <small class="amount-instruction">
+                                    <i class="fa-solid fa-circle-info"></i> Bayar pas sesuai nominal di atas melalui
+                                    m-Banking (BCA/Mandiri/BRI) atau E-Wallet (GoPay/OVO/Dana/ShopeePay).
+                                </small>
+                            </div>
+
+                            <!-- QRIS Visual Code Box (Tampilan Penuh, Jelas & Tanpa Animasi) -->
+                            <div class="qris-preview-holder">
+                                <div class="qris-card-header-badge">
+                                    <span class="badge-qris-title"><i class="fa-solid fa-qrcode"></i> KODE QRIS RESMI
+                                        KETHAI & CO</span>
+                                    <span class="badge-qris-sub">Scan langsung melalui kamera m-Banking atau E-Wallet
+                                        pilihanmu</span>
+                                </div>
+
+                                <div class="qris-image-wrap qris-full-view">
+                                    <img src="images/qris_ketaico.jpg" alt="QRIS Kethai & Co" id="qrisCheckoutImg"
+                                        class="qris-actual-img">
+                                </div>
+
+                                <div class="qris-merchant-info-mini">
+                                    <h4>KETHAI.CO, MAKANAN & MINUMAN</h4>
+                                    <p class="merchant-nmid">NMID: ID1026597339328</p>
+                                    <div class="merchant-pills-wrap">
+                                        <span>BCA</span>
+                                        <span>Mandiri</span>
+                                        <span>BRI</span>
+                                        <span>BNI</span>
+                                        <span>GoPay</span>
+                                        <span>OVO</span>
+                                        <span>DANA</span>
+                                        <span>ShopeePay</span>
+                                    </div>
+                                    <div class="qris-actions-row">
+                                        <a href="images/qris_ketaico.jpg" download="QRIS_Kethai_Co.jpg"
+                                            class="btn-qris-action">
+                                            <i class="fa-solid fa-download"></i> Simpan Gambar QRIS
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mandatory Proof Upload Section (Manual File Picker) -->
+                            <div class="proof-upload-section">
+                                <div class="proof-header">
+                                    <label class="proof-label">
+                                        <i class="fa-solid fa-receipt"></i> Upload Bukti Pembayaran / Transfer <span
+                                            class="required">*</span>
+                                    </label>
+                                    <span class="proof-badge-required"><i class="fa-solid fa-lock"></i> Wajib
+                                        Upload</span>
+                                </div>
+                                <p class="proof-desc">Selesaikan transfer di aplikasi kamu, lalu pilih file screenshot
+                                    bukti pembayaran dari perangkat:</p>
+
+                                <div class="proof-dropzone-box" id="proofDropzone"
+                                    onclick="document.getElementById('qrisProofFile').click()">
+                                    <input type="file" id="qrisProofFile" accept="image/*" style="display:none;"
+                                        onchange="handleProofFileSelected(event)">
+
+                                    <div class="proof-idle-content" id="dropzoneIdle">
+                                        <div class="proof-upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                        <div class="proof-upload-info">
+                                            <strong>Tarik & Lepas (Drag & Drop) Foto Bukti ke Sini</strong>
+                                            <small>atau klik untuk memilih file screenshot (JPG, PNG, JPEG, WebP maks.
+                                                8MB)</small>
+                                        </div>
+                                        <button type="button" class="btn-select-file"
+                                            onclick="event.stopPropagation(); document.getElementById('qrisProofFile').click()">
+                                            <i class="fa-solid fa-folder-open"></i> Pilih File Gambar
+                                        </button>
+                                    </div>
+
+                                    <div class="dropzone-preview" id="dropzonePreview" style="display:none;"
+                                        onclick="event.stopPropagation()">
+                                        <img id="proofPreviewImg" src="" alt="Bukti Transfer">
+                                        <div class="preview-info">
+                                            <span class="preview-filename" id="proofFileName">bukti_transfer.jpg</span>
+                                            <span class="preview-badge"><i class="fa-solid fa-circle-check"></i> Bukti
+                                                Terlampir</span>
+                                            <button type="button" class="btn-remove-proof"
+                                                onclick="removeProofFile(event)">
+                                                <i class="fa-solid fa-arrow-rotate-left"></i> Ganti Gambar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Optional Ref Number -->
+                                <div class="proof-ref-box">
+                                    <label for="qrisRefNumber"><i class="fa-solid fa-hashtag"></i> No. Referensi / ID
+                                        Transaksi <small>(Opsional)</small>:</label>
+                                    <input type="text" id="qrisRefNumber" placeholder="Contoh: 8941 atau GOPAY-9921"
+                                        maxlength="40">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cash Action Banner (Shows when Cash is active) -->
+                        <div id="cashHelperBox" class="cash-helper-box" style="display: none;">
+                            <div class="cash-helper-text">
+                                <i class="fa-solid fa-hand-holding-dollar"></i> Siapkan uang pas saat pesanan Ketan Susu
+                                diantar ke alamat/kosanmu.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Admin Selector -->
+                    <div class="form-group">
+                        <label><i class="fa-brands fa-whatsapp"></i> Hubungi Admin WhatsApp yang Berjaga <span
+                                class="required">*</span></label>
+                        <div class="admin-options-grid">
+                            <div class="admin-option-card active" id="opt-admin1" onclick="selectAdmin('admin1')">
+                                <input type="radio" name="adminSelectRadio" id="radio-admin1" value="admin1" checked>
+                                <div class="admin-card-content">
+                                    <div class="admin-avatar"><i class="fa-solid fa-headset"></i></div>
+                                    <div class="admin-info">
+                                        <strong>Admin 1 — Malik</strong>
+                                        <small><i class="fa-brands fa-whatsapp"></i> +62 813-1167-0557</small>
+                                        <span class="admin-status-pill"><span class="admin-badge-pulse"></span> Siaga
+                                            Berjaga</span>
+                                    </div>
+                                </div>
+                                <span class="admin-check"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+
+                            <div class="admin-option-card" id="opt-admin2" onclick="selectAdmin('admin2')">
+                                <input type="radio" name="adminSelectRadio" id="radio-admin2" value="admin2">
+                                <div class="admin-card-content">
+                                    <div class="admin-avatar"><i class="fa-solid fa-headset"></i></div>
+                                    <div class="admin-info">
+                                        <strong>Admin 2 — Rooben</strong>
+                                        <small><i class="fa-brands fa-whatsapp"></i> +62 852-7775-8520</small>
+                                        <span class="admin-status-pill"><span class="admin-badge-pulse"></span> Siaga
+                                            Berjaga</span>
+                                    </div>
+                                </div>
+                                <span class="admin-check"><i class="fa-solid fa-circle-check"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security & Sync Status Info -->
+                    <div class="sync-status-badge" id="checkoutStatusBadge">
+                        <i class="fa-solid fa-shield-halved"></i> Verifikasi keamanan aktif. Pesanan tervalidasi sebelum
+                        masuk ke Google Spreadsheet.
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="submit" id="btnSubmitWA" class="btn btn-primary btn-block">
+                            <i class="fa-solid fa-shield-check"></i> Verifikasi Pembayaran & Selesaikan Pesanan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Preview QRIS Interaktif -->
+    <div class="modal-overlay" id="qrisModal">
+        <div class="modal-container qris-modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-qrcode"></i> Scan QRIS Pembayaran</h3>
+                <button class="close-modal-btn" onclick="closeQRISModal()">&times;</button>
+            </div>
+            <div class="modal-body qris-body">
+                <div class="qris-card">
+                    <div class="qris-top-bar">
+                        <span class="qris-badge-title">QRIS</span>
+                        <span class="qris-sub">Pembayaran Digital Nasional</span>
+                    </div>
+
+                    <div class="qris-merchant-block">
+                        <h4>KETHAI.CO, MAKANAN & MINUMAN</h4>
+                        <p>NMID: ID1026597339328 • Dicetak oleh: 93600914 • A01</p>
+                    </div>
+
+                    <div class="qris-qr-frame">
+                        <img src="images/qris_ketaico.jpg" alt="QRIS Kethai & Co Resmi" class="qris-img-tag">
+                        <div class="qris-scan-line"></div>
+                    </div>
+
+                    <div class="qris-amount-display">
+                        <span>Total Tagihan Pesanan Kamu:</span>
+                        <strong id="qrisModalAmount">Rp 0</strong>
+                    </div>
+
+                    <div class="qris-support-pill">
+                        <span><i class="fa-solid fa-wallet"></i> GoPay</span>
+                        <span><i class="fa-solid fa-mobile-screen"></i> OVO</span>
+                        <span><i class="fa-solid fa-bolt"></i> DANA</span>
+                        <span><i class="fa-solid fa-bag-shopping"></i> ShopeePay</span>
+                        <span><i class="fa-solid fa-building-columns"></i> BCA / Mandiri / BRI / BNI</span>
+                    </div>
+                </div>
+
+                <div class="qris-guide-box">
+                    <h5><i class="fa-solid fa-list-check"></i> Panduan Pembayaran QRIS:</h5>
+                    <ol>
+                        <li>Buka aplikasi m-Banking atau E-Wallet pilihanmu (GoPay, OVO, Dana, Shopee, BCA, dll).</li>
+                        <li>Pilih menu <strong>Scan QR / Bayar</strong> dan scan kode di atas.</li>
+                        <li>Pastikan nama merchant tertera <strong>KETHAI.CO, MAKANAN & MINUMAN</strong>.</li>
+                        <li>Transfer <strong>sesuai nominal tagihan</strong> di atas, lalu simpan tangkapan layar
+                            (screenshot) bukti berhasil.</li>
+                        <li>Upload screenshot tersebut pada form checkout untuk menyelesaikan pesanan!</li>
+                    </ol>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-primary btn-block" onclick="closeQRISModal()">
+                        <i class="fa-solid fa-check"></i> Saya Sudah Paham / Lanjut Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Layar Pembayaran Berhasil (Anti-Fiktif Success Screen) -->
+    <div class="modal-overlay" id="paymentSuccessModal">
+        <div class="modal-container success-modal-box">
+            <div class="modal-header success-header">
+                <h3><i class="fa-solid fa-circle-check"></i> Pembayaran Berhasil!</h3>
+                <button class="close-modal-btn" onclick="closeSuccessModalAndReset()">&times;</button>
+            </div>
+            <div class="modal-body success-body">
+                <div class="success-icon-wrapper">
+                    <div class="success-icon-pulse"></div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <div class="success-headline">
+                    <h2>Pesanan Berhasil Diverifikasi!</h2>
+                    <p id="successSubtitleText">Pembayaran QRIS telah tervalidasi dan otomatis tercatat ke Spreadsheet
+                        rekapitulasi Kethai & Co.</p>
+                </div>
+
+                <!-- Digital Receipt Card -->
+                <div class="receipt-card" id="digitalReceiptCard">
+                    <div class="receipt-cutout-top"></div>
+                    <div class="receipt-header-row">
+                        <div class="receipt-brand">
+                            <strong>KETHAI & CO</strong>
+                            <small>Ketan Susu Tradisional Modern</small>
+                        </div>
+                        <span class="receipt-badge-status" id="receiptStatusBadge">
+                            <i class="fa-solid fa-check-double"></i> LUNAS (VERIFIED)
+                        </span>
+                    </div>
+
+                    <div class="receipt-divider-dash"></div>
+
+                    <div class="receipt-meta-grid">
+                        <div class="receipt-meta-item">
+                            <span>ID Pesanan</span>
+                            <strong id="receiptOrderId">KTC-000000</strong>
+                        </div>
+                        <div class="receipt-meta-item">
+                            <span>Waktu Transaksi</span>
+                            <strong id="receiptOrderTime">Hari ini</strong>
+                        </div>
+                        <div class="receipt-meta-item">
+                            <span>Pemesan</span>
+                            <strong id="receiptCustomerName">Pelanggan</strong>
+                        </div>
+                        <div class="receipt-meta-item">
+                            <span>Admin Bertugas</span>
+                            <strong id="receiptAdminName">Admin Malik</strong>
+                        </div>
+                    </div>
+
+                    <div class="receipt-divider-dash"></div>
+
+                    <div class="receipt-items-section">
+                        <span class="receipt-section-label">Rincian Menu & Topping:</span>
+                        <div class="receipt-items-list" id="receiptItemsList">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="receipt-divider-dash"></div>
+
+                    <div class="receipt-total-row">
+                        <span>Total Terbayar</span>
+                        <strong id="receiptTotalAmount">Rp 0</strong>
+                    </div>
+
+                    <!-- Live Order Session Tracker inside Digital Receipt -->
+                    <div class="receipt-status-tracker-box">
+                        <div class="tracker-header-row">
+                            <span><i class="fa-solid fa-list-check"></i> Sesi Info Pemesanan:</span>
+                            <span class="badge-order-status badge-status-masuk" id="receiptLiveStatusPill">
+                                <i class="fa-solid fa-inbox"></i> Pesanan Berhasil Masuk
+                            </span>
+                        </div>
+                        <div class="tracker-stepper-line" id="receiptTrackerStepper">
+                            <div class="step-point active" id="stepPoint1">
+                                <span class="dot">1</span>
+                                <span class="step-name">Masuk</span>
+                            </div>
+                            <div class="step-line" id="stepLine1"></div>
+                            <div class="step-point" id="stepPoint2">
+                                <span class="dot">2</span>
+                                <span class="step-name">Dibuat</span>
+                            </div>
+                            <div class="step-line" id="stepLine2"></div>
+                            <div class="step-point" id="stepPoint3">
+                                <span class="dot">3</span>
+                                <span class="step-name">Selesai</span>
+                            </div>
+                            <div class="step-line" id="stepLine3"></div>
+                            <div class="step-point" id="stepPoint4">
+                                <span class="dot">4</span>
+                                <span class="step-name">Dikirim</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Proof Verification Badge Info -->
+                    <div class="receipt-proof-info" id="receiptProofInfo">
+                        <div class="proof-info-left">
+                            <i class="fa-solid fa-file-circle-check"></i>
+                            <div>
+                                <small>Lampiran Bukti Transfer:</small>
+                                <strong id="receiptProofFilename">bukti.jpg</strong>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-preview-receipt-proof" id="btnSuccessViewProof"
+                            onclick="openProofViewerModal(state.lastVerifiedOrder?.id)">
+                            <i class="fa-solid fa-eye"></i> Lihat Bukti
+                        </button>
+                    </div>
+
+                    <div class="receipt-sheet-sync-pill">
+                        <i class="fa-solid fa-cloud-check"></i> Data tersinkronisasi otomatis ke Google Spreadsheet
+                        Harian
+                    </div>
+                </div>
+
+                <!-- Next Action Buttons -->
+                <div class="success-actions">
+                    <a href="#" id="successWABtn" target="_blank" class="btn btn-whatsapp btn-block">
+                        <i class="fa-brands fa-whatsapp"></i> Teruskan Struk ke WhatsApp Admin
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-block" onclick="downloadReceiptTxt()">
+                        <i class="fa-solid fa-download"></i> Simpan Struk Digital (TXT)
+                    </button>
+                    <button type="button" class="btn btn-outline btn-block" onclick="closeSuccessModalAndReset()">
+                        <i class="fa-solid fa-bowl-food"></i> Selesai & Pesan Menu Lainnya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lihat Bukti Pembayaran QRIS (Lightbox View) -->
+    <div class="modal-overlay" id="proofViewerModal">
+        <div class="modal-container proof-viewer-modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-receipt"></i> Bukti Pembayaran QRIS</h3>
+                <button class="close-modal-btn" onclick="closeProofViewerModal()">&times;</button>
+            </div>
+            <div class="modal-body proof-viewer-body">
+                <div class="proof-viewer-meta" id="proofViewerMeta">
+                    <div>
+                        <span>ID Pesanan:</span>
+                        <strong id="proofMetaOrderId">-</strong>
+                    </div>
+                    <div>
+                        <span>Pemesan:</span>
+                        <strong id="proofMetaCust">-</strong>
+                    </div>
+                    <div>
+                        <span>Waktu & Tanggal:</span>
+                        <strong id="proofMetaTime">-</strong>
+                    </div>
+                    <div>
+                        <span>Total Tagihan:</span>
+                        <strong id="proofMetaTotal" style="color: var(--primary-orange);">-</strong>
+                    </div>
+                </div>
+
+                <div class="proof-viewer-image-container">
+                    <img id="proofViewerImg" src="" alt="Bukti Transfer QRIS">
+                </div>
+
+                <div class="proof-viewer-actions">
+                    <a id="proofViewerDownloadBtn" href="#" download="Bukti_QRIS.jpg"
+                        class="btn btn-secondary btn-block">
+                        <i class="fa-solid fa-download"></i> Unduh Foto Bukti
+                    </a>
+                    <button type="button" class="btn btn-primary btn-block" onclick="closeProofViewerModal()">
+                        <i class="fa-solid fa-check"></i> Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Rekap Pesanan Harian (Spreadsheet View) -->
+    <div class="modal-overlay" id="ordersModal">
+        <div class="modal-container orders-modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-table"></i> Rekap Pesanan Harian Kethai & Co</h3>
+                <button class="close-modal-btn" onclick="closeOrdersModal()">&times;</button>
+            </div>
+            <div class="modal-body orders-modal-body">
+                <div class="orders-modal-actions-top">
+                    <button class="btn btn-sm btn-secondary" id="btnRefreshOrders"
+                        onclick="fetchLiveOrdersFromSpreadsheet(false)"
+                        title="Sinkronkan status terbaru dari Spreadsheet">
+                        <i class="fa-solid fa-arrows-rotate" id="refreshIcon"></i> Sinkronkan dari Spreadsheet
+                    </button>
+                    <button class="btn btn-sm btn-primary" onclick="exportOrdersToCSV()">
+                        <i class="fa-solid fa-file-csv"></i> Download CSV / Excel
+                    </button>
+                </div>
+
+                <div class="table-scroll-hint-bar">
+                    <i class="fa-solid fa-arrows-left-right"></i> Geser tabel ke samping untuk melihat kolom lengkap
+                </div>
+
+                <div class="table-responsive-box">
+                    <table class="orders-table" id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 45px; text-align: center;">No</th>
+                                <th>Waktu</th>
+                                <th>Pemesan</th>
+                                <th>Menu & Topping</th>
+                                <th>Admin WA</th>
+                                <th>Metode Bayar</th>
+                                <th>Total</th>
+                                <th style="min-width: 160px; text-align: center;">Status Info Pemesanan</th>
+                                <th style="text-align: center;">Bukti</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- Populated dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="orders-modal-footer">
+                    <button class="btn btn-sm btn-secondary" onclick="closeOrdersModal()">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-container">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span id="toastMessage">Produk berhasil ditambahkan!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="brand-logo">
+                    <img src="images/logo.png" alt="Kethai.co Logo" class="brand-logo-img">
+                </a>
+                <p>Ketan Susu Tradisional Modern. Solusi ngemil hemat, lezat.</p>
+                <a href="https://www.instagram.com/kethai.co/" target="_blank" rel="noopener noreferrer"
+                    class="footer-ig-card" title="Kunjungi Akun Instagram @kethai.co">
+                    <div class="footer-ig-icon"><i class="fa-brands fa-instagram"></i></div>
+                    <div class="footer-ig-info">
+                        <span class="footer-ig-title">Official Instagram</span>
+                        <span class="footer-ig-user">@kethai.co</span>
+                    </div>
+                </a>
+                <div class="footer-admin-link">
+                    <button onclick="openOrdersModal()" class="admin-orders-btn">
+                        <i class="fa-solid fa-table-list"></i> Lihat Rekap Spreadsheet Pesanan
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Hubungi Penjual</h4>
+                <div class="footer-contact-block">
+                    <p class="contact-header-line"><i class="fa-brands fa-whatsapp"></i> <strong>WhatsApp Admin yang
+                            Berjaga:</strong></p>
+                    <div class="admin-contact-links">
+                        <a href="https://wa.me/6281311670557" target="_blank" rel="noopener noreferrer"
+                            class="contact-wa-link">
+                            <span class="admin-tag">Admin 1</span>
+                            <span class="admin-name">Malik:</span>
+                            <span class="admin-num">+62 813-1167-0557</span>
+                        </a>
+                        <a href="https://wa.me/6285277758520" target="_blank" rel="noopener noreferrer"
+                            class="contact-wa-link">
+                            <span class="admin-tag">Admin 2</span>
+                            <span class="admin-name">Rooben:</span>
+                            <span class="admin-num">+62 852-7775-8520</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-contact-block">
+                    <p class="contact-header-line ig-header-line"><i class="fa-brands fa-instagram"></i>
+                        <strong>Instagram Resmi:</strong>
+                    </p>
+                    <a href="https://www.instagram.com/kethai.co/" target="_blank" rel="noopener noreferrer"
+                        class="contact-ig-pill" title="Follow @kethai.co di Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>@kethai.co</span>
+                        <span class="ig-pill-badge">Buka Akun <i
+                                class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    </a>
+                </div>
+                <p>
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="mailto:kelompokprojectkwu@gmail.com" class="contact-email">kelompokprojectkwu@gmail.com</a>
+                </p>
+                <p>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Telkom University Jakarta Kampus Stasiun Bumi</span>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Kethai & Co. Dibuat dengan cinta, cita rasa & kemudahan.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Instagram Quick Access Pill -->
+    <a href="https://www.instagram.com/kethai.co/" target="_blank" rel="noopener noreferrer" class="floating-ig-btn"
+        title="Kunjungi Instagram Resmi @kethai.co">
+        <i class="fa-brands fa-instagram"></i>
+        <span>@kethai.co</span>
+    </a>
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Main JS Script -->
+    <script src="app.js"></script>
+</body>
+
+</html>
