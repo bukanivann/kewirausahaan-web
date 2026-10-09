@@ -2374,12 +2374,12 @@ body {
 }
 
 .qris-card {
-    background: #FFFFFF;
-    border: 2px solid #E8E2D9;
-    border-radius: 20px;
-    padding: 1.6rem 1.2rem;
+    background: #FFFDF9;
+    border: 2.5px solid #FCD4BA;
+    border-radius: 28px;
+    padding: 1.8rem 1.4rem;
     text-align: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 14px 36px rgba(235, 94, 40, 0.09);
 }
 
 .qris-top-bar {
@@ -2420,23 +2420,23 @@ body {
 
 .qris-qr-frame {
     width: 100%;
-    max-width: 310px;
+    max-width: 330px;
     height: auto;
     aspect-ratio: 590 / 680;
     margin: 1.2rem auto;
-    padding: 12px;
+    padding: 14px;
     background: #FFFFFF;
-    border: 2px solid #E2E8F0;
-    border-radius: 20px;
+    border: 3.5px solid #FDBA74;
+    border-radius: 24px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 14px 36px rgba(194, 65, 12, 0.15);
 }
 
 .qris-img-tag {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border-radius: 10px;
+    border-radius: 14px;
 }
 
 .qris-amount-display {
@@ -3187,15 +3187,15 @@ body {
    ========================================================================== */
 
 .qris-checkout-card {
-    background: #FCFBF9;
-    border: 1.5px solid #E9E2D8;
-    border-radius: 20px;
-    padding: 1.35rem;
-    margin-top: 0.9rem;
+    background: #FFFDF9;
+    border: 2.5px solid #FCD4BA;
+    border-radius: 26px;
+    padding: 1.6rem 1.4rem;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    gap: 1.25rem;
+    box-shadow: 0 12px 32px rgba(235, 94, 40, 0.08), 0 4px 14px rgba(0, 0, 0, 0.03);
 }
 
 .qris-checkout-header {
@@ -3218,8 +3218,8 @@ body {
     color: #FFFFFF;
     font-size: 0.75rem;
     font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 8px;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -3232,8 +3232,8 @@ body {
     border: 1px solid #BBF7D0;
     font-size: 0.74rem;
     font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 6px;
+    padding: 3px 9px;
+    border-radius: 8px;
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
@@ -3245,7 +3245,7 @@ body {
     color: #DC2626;
     font-size: 0.8rem;
     font-weight: 700;
-    padding: 4px 10px;
+    padding: 4px 12px;
     border-radius: 50px;
     display: inline-flex;
     align-items: center;
@@ -3254,10 +3254,10 @@ body {
 
 .qris-amount-highlight {
     background: #FFFFFF;
-    border: 1.5px solid #FCD34D;
-    border-radius: 16px;
-    padding: 1.1rem;
-    box-shadow: 0 3px 12px rgba(245, 158, 11, 0.08);
+    border: 2.5px solid #FCD34D;
+    border-radius: 22px;
+    padding: 1.25rem 1.35rem;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12);
 }
 
 .amount-label-row {
@@ -3279,7 +3279,7 @@ body {
 
 .amount-val-row h3 {
     font-family: var(--font-heading);
-    font-size: 1.7rem;
+    font-size: 1.8rem;
     font-weight: 900;
     color: var(--primary-orange);
     letter-spacing: -0.5px;
@@ -3287,23 +3287,23 @@ body {
 
 .btn-copy-amount {
     background: #FFF7ED;
-    border: 1px solid #FDBA74;
+    border: 1.5px solid #FDBA74;
     color: #C2410C;
-    border-radius: 10px;
-    padding: 6px 12px;
-    font-size: 0.82rem;
-    font-weight: 700;
+    border-radius: 12px;
+    padding: 7px 14px;
+    font-size: 0.84rem;
+    font-weight: 800;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     transition: var(--transition-fast);
 }
 
 .btn-copy-amount:hover {
     background: #FFEDD5;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.2);
 }
 
 .amount-instruction {
@@ -3316,17 +3316,17 @@ body {
     padding-top: 0.5rem;
 }
 
-/* QR Code Preview Box (Besar, Terpusat & Jelas) */
+/* QR Code Preview Box (Besar, Gembul & Terpusat) */
 .qris-preview-holder {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     background: #FFFFFF;
-    border: 1.5px solid #E8E2D9;
-    border-radius: 20px;
-    padding: 1.4rem 1.2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 2.5px solid #FCD4BA;
+    border-radius: 28px;
+    padding: 1.6rem 1.4rem;
+    box-shadow: 0 14px 36px rgba(235, 94, 40, 0.1), 0 4px 14px rgba(0, 0, 0, 0.04);
 }
 
 .qris-card-header-badge {
@@ -3341,12 +3341,12 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 800;
     color: #DC2626;
     background: #FEF2F2;
-    border: 1px solid #FECACA;
-    padding: 4px 14px;
+    border: 1.5px solid #FECACA;
+    padding: 5px 16px;
     border-radius: 50px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -3359,18 +3359,24 @@ body {
 
 .qris-image-wrap {
     position: relative;
-    width: 280px;
+    width: 310px;
     max-width: 100%;
     height: auto;
     aspect-ratio: 590 / 680;
-    border-radius: 16px;
+    border-radius: 24px;
     overflow: hidden;
-    border: 2px solid #E2E8F0;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border: 3.5px solid #FDBA74;
+    box-shadow: 0 12px 32px rgba(194, 65, 12, 0.14);
     flex-shrink: 0;
     background: #FFFFFF;
-    padding: 8px;
+    padding: 12px;
     margin: 0 auto 0.8rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.qris-image-wrap:hover {
+    transform: scale(1.025);
+    box-shadow: 0 16px 40px rgba(194, 65, 12, 0.2);
 }
 
 .qris-actual-img {
@@ -3378,7 +3384,7 @@ body {
     height: 100%;
     object-fit: contain;
     display: block;
-    border-radius: 10px;
+    border-radius: 14px;
     background: #FFFFFF;
 }
 
