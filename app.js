@@ -5,11 +5,11 @@
 
 // --- Global Application State ---
 const state = {
-    // Produk Utama: Ketan Susu Original (Rp 7.000)
+    // Produk Utama: Ketan Susu Original (Rp 10.000)
     product: {
         id: 'original',
         name: 'Ketan Susu Original',
-        basePrice: 7000,
+        basePrice: 10000,
         qty: 1,
         selectedAddons: []
     },
