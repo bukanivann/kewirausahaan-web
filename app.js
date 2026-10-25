@@ -14,47 +14,37 @@ const state = {
         selectedAddons: []
     },
 
-    // Master Add-on / Topping Tambahan (Satuan 2rb, Paket Lengkap 5rb)
+    // Master Add-on / Topping Tambahan (Satuan 2rb, Topping Full +5rb / Total 15rb)
     availableAddons: [
         {
-            id: 'extra_mangga',
-            name: 'Topping Mangga Segar',
+            id: 'choco_crunchy',
+            name: 'Choco Crunchy',
             price: 2000,
-            imageKey: 'mangga',
-            icon: 'fa-solid fa-lemon',
+            imageKey: null,
+            icon: 'fa-solid fa-cookie-bite',
             iconBg: '#FEF3C7',
-            iconColor: '#D97706',
-            label: 'Mangga Harum Manis (+Rp 2.000)'
+            iconColor: '#92400E',
+            label: 'Choco Crunchy (+Rp 2.000)'
         },
         {
-            id: 'extra_stroberi',
-            name: 'Topping Stroberi Segar',
+            id: 'oreo',
+            name: 'Oreo',
             price: 2000,
-            imageKey: 'stroberi',
-            icon: 'fa-solid fa-apple-whole',
-            iconBg: '#FFE4E6',
-            iconColor: '#E11D48',
-            label: 'Stroberi Segar Asli (+Rp 2.000)'
+            imageKey: null,
+            icon: 'fa-solid fa-cookie',
+            iconBg: '#E0E7FF',
+            iconColor: '#1E1B4B',
+            label: 'Oreo (+Rp 2.000)'
         },
         {
-            id: 'combo_lengkap',
-            name: 'Paket Topping Lengkap (Mangga, Stroberi & Keju)',
+            id: 'topping_full',
+            name: 'Topping Full (Choco Crunchy + Oreo)',
             price: 5000,
-            imageKey: 'lengkap',
+            imageKey: null,
             icon: 'fa-solid fa-crown',
             iconBg: '#F3E8FF',
             iconColor: '#9333EA',
-            label: 'Combo Lengkap Mangga, Stroberi & Keju (+Rp 5.000)'
-        },
-        {
-            id: 'extra_keju',
-            name: 'Extra Keju Parut Gurih',
-            price: 2000,
-            imageKey: null,
-            icon: 'fa-solid fa-cheese',
-            iconBg: '#FEF3C7',
-            iconColor: '#D97706',
-            label: 'Double Keju Parut (+Rp 2.000)'
+            label: 'Topping Full (+Rp 5.000)'
         }
     ],
 
@@ -63,18 +53,6 @@ const state = {
         original: {
             src: 'images/ketan_original.jpg',
             label: 'Ketan Susu Original'
-        },
-        mangga: {
-            src: 'images/ketan_mangga.jpg',
-            label: 'Topping Mangga Harum Manis'
-        },
-        stroberi: {
-            src: 'images/ketan_stroberi.jpg',
-            label: 'Topping Stroberi Segar Asli'
-        },
-        lengkap: {
-            src: 'images/ketan_lengkap.jpg',
-            label: 'Topping Lengkap Mangga, Stroberi & Keju'
         }
     },
 
@@ -139,78 +117,28 @@ function toggleAddon(addonId) {
         // Uncheck / hapus addon
         state.product.selectedAddons.splice(existingIdx, 1);
     } else {
-        // Logika eksklusif: Jika pilih Paket Lengkap, uncheck Mangga, Stroberi, dan Keju terpisah (karena sudah termasuk lengkap)
-        if (addonId === 'combo_lengkap') {
+        if (addonId === 'topping_full') {
+            // Jika pilih Topping Full, otomatis uncheck satuan dan pakai Topping Full (Rp 15.000)
+            state.product.selectedAddons = [addon];
+        } else {
+            // Hapus Topping Full dulu jika sebelumnya aktif
             state.product.selectedAddons = state.product.selectedAddons.filter(
-                a => a.id !== 'extra_mangga' && a.id !== 'extra_stroberi' && a.id !== 'extra_keju'
+                a => a.id !== 'topping_full'
             );
-        } else if (addonId === 'extra_mangga' || addonId === 'extra_stroberi' || addonId === 'extra_keju') {
-            state.product.selectedAddons = state.product.selectedAddons.filter(
-                a => a.id !== 'combo_lengkap'
-            );
-        }
-        state.product.selectedAddons.push(addon);
-    }
+            state.product.selectedAddons.push(addon);
 
-    // Tentukan gambar galeri otomatis berdasarkan kombinasi add-on
-    syncGalleryWithAddons();
-    updateConfiguratorUI();
-}
-
-function syncGalleryWithAddons() {
-    const hasMangga = state.product.selectedAddons.some(a => a.id === 'extra_mangga');
-    const hasStroberi = state.product.selectedAddons.some(a => a.id === 'extra_stroberi');
-    const hasLengkap = state.product.selectedAddons.some(a => a.id === 'combo_lengkap');
-
-    let targetKey = 'original';
-
-    if (hasLengkap || (hasMangga && hasStroberi)) {
-        targetKey = 'lengkap';
-    } else if (hasMangga) {
-        targetKey = 'mangga';
-    } else if (hasStroberi) {
-        targetKey = 'stroberi';
-    } else {
-        targetKey = 'original';
-    }
-
-    switchGalleryView(targetKey);
-}
-
-function selectGalleryThumb(thumbKey) {
-    // Sinkronisasi add-on ketika user mengklik thumbnail di galeri
-    if (thumbKey === 'original') {
-        // Hapus topping buah & combo
-        state.product.selectedAddons = state.product.selectedAddons.filter(
-            a => a.id === 'extra_keju'
-        );
-    } else if (thumbKey === 'mangga') {
-        const addonMangga = state.availableAddons.find(a => a.id === 'extra_mangga');
-        state.product.selectedAddons = state.product.selectedAddons.filter(
-            a => a.id !== 'combo_lengkap' && a.id !== 'extra_stroberi'
-        );
-        if (!state.product.selectedAddons.some(a => a.id === 'extra_mangga')) {
-            state.product.selectedAddons.push(addonMangga);
-        }
-    } else if (thumbKey === 'stroberi') {
-        const addonStroberi = state.availableAddons.find(a => a.id === 'extra_stroberi');
-        state.product.selectedAddons = state.product.selectedAddons.filter(
-            a => a.id !== 'combo_lengkap' && a.id !== 'extra_mangga'
-        );
-        if (!state.product.selectedAddons.some(a => a.id === 'extra_stroberi')) {
-            state.product.selectedAddons.push(addonStroberi);
-        }
-    } else if (thumbKey === 'lengkap') {
-        const addonLengkap = state.availableAddons.find(a => a.id === 'combo_lengkap');
-        state.product.selectedAddons = state.product.selectedAddons.filter(
-            a => a.id !== 'extra_mangga' && a.id !== 'extra_stroberi' && a.id !== 'extra_keju'
-        );
-        if (!state.product.selectedAddons.some(a => a.id === 'combo_lengkap')) {
-            state.product.selectedAddons.push(addonLengkap);
+            // Jika Choco Crunchy & Oreo dicentang dua-duanya sekaligus, otomatis jadikan Topping Full (Rp 15.000)
+            const hasChoco = state.product.selectedAddons.some(a => a.id === 'choco_crunchy');
+            const hasOreo = state.product.selectedAddons.some(a => a.id === 'oreo');
+            if (hasChoco && hasOreo) {
+                const fullAddon = state.availableAddons.find(a => a.id === 'topping_full');
+                if (fullAddon) {
+                    state.product.selectedAddons = [fullAddon];
+                }
+            }
         }
     }
 
-    switchGalleryView(thumbKey);
     updateConfiguratorUI();
 }
 
@@ -223,7 +151,6 @@ function switchGalleryView(galleryKey) {
     const activeLabel = document.getElementById('galleryActiveLabel');
 
     if (mainImg) {
-        // Efek transisi halus saat berganti foto
         mainImg.classList.add('switching');
         setTimeout(() => {
             mainImg.src = galleryData.src;
@@ -235,12 +162,6 @@ function switchGalleryView(galleryKey) {
     if (activeLabel) {
         activeLabel.innerHTML = `<i class="fa-solid fa-sparkles"></i> ${galleryData.label}`;
     }
-
-    // Update active state pada thumbnail
-    document.querySelectorAll('.gallery-thumb').forEach(thumb => {
-        const key = thumb.getAttribute('data-thumb-key');
-        thumb.classList.toggle('active', key === galleryKey);
-    });
 }
 
 function changeProductQty(delta) {
@@ -253,22 +174,47 @@ function changeProductQty(delta) {
 }
 
 function updateConfiguratorUI() {
-    // Hitung harga satuan dan total (Ketan Susu Original Rp 7.000)
-    const unitPrice = state.product.basePrice;
+    // Hitung harga satuan + add-on terpilih
+    const addonsPrice = state.product.selectedAddons.reduce((sum, a) => sum + a.price, 0);
+    const unitPrice = state.product.basePrice + addonsPrice;
     const totalPrice = unitPrice * state.product.qty;
+
+    // Update status checkbox & kartu add-on di UI
+    state.availableAddons.forEach(addon => {
+        const isSelected = state.product.selectedAddons.some(a => a.id === addon.id);
+        const cardEl = document.getElementById(`addon-card-${addon.id}`);
+        const chkEl = document.getElementById(`chk-${addon.id}`);
+        if (cardEl) cardEl.classList.toggle('active', isSelected);
+        if (chkEl) chkEl.checked = isSelected;
+    });
 
     // Update Banner Harga
     const priceAmountEl = document.getElementById('dynamicPriceAmount');
     const priceBreakdownEl = document.getElementById('priceBreakdownTag');
     const btnCtaText = document.getElementById('btnCtaText');
+    const activeLabel = document.getElementById('galleryActiveLabel');
 
     if (priceAmountEl) {
         priceAmountEl.innerText = unitPrice.toLocaleString('id-ID');
     }
 
     if (priceBreakdownEl) {
-        priceBreakdownEl.innerText = 'Porsi Pas & Pulen';
+        if (state.product.selectedAddons.length > 0) {
+            const addonNames = state.product.selectedAddons.map(a => a.name).join(', ');
+            priceBreakdownEl.innerText = `+ ${addonNames}`;
+        } else {
+            priceBreakdownEl.innerText = 'Porsi Pas & Pulen';
+        }
         priceBreakdownEl.style.display = 'inline-block';
+    }
+
+    if (activeLabel) {
+        if (state.product.selectedAddons.length > 0) {
+            const addonNames = state.product.selectedAddons.map(a => a.name).join(' + ');
+            activeLabel.innerHTML = `<i class="fa-solid fa-sparkles"></i> Ketan Susu + ${addonNames}`;
+        } else {
+            activeLabel.innerHTML = `<i class="fa-solid fa-sparkles"></i> Ketan Susu Original`;
+        }
     }
 
     if (btnCtaText) {
@@ -282,9 +228,15 @@ function updateConfiguratorUI() {
 
 function addConfiguredProductToCart() {
     const p = state.product;
-    const unitPrice = p.basePrice;
+    const addonsCopy = [...p.selectedAddons];
+    const addonsPrice = addonsCopy.reduce((sum, a) => sum + a.price, 0);
+    const unitPrice = p.basePrice + addonsPrice;
     const variantName = p.name;
-    const cartItemId = 'ketan_original';
+
+    const addonKey = addonsCopy.length > 0
+        ? addonsCopy.map(a => a.id).sort().join('_')
+        : 'no_addon';
+    const cartItemId = `ketan_original__${addonKey}`;
 
     const existingIndex = state.cart.findIndex(i => i.cartItemId === cartItemId);
 
@@ -296,7 +248,7 @@ function addConfiguredProductToCart() {
             productId: p.id,
             name: variantName,
             basePrice: p.basePrice,
-            addons: [],
+            addons: addonsCopy,
             unitPrice: unitPrice,
             qty: p.qty,
             category: 'Ketan Susu Pilihan'
@@ -304,14 +256,19 @@ function addConfiguredProductToCart() {
     }
 
     const addedCount = p.qty;
-    // Reset jumlah kembali ke 1
+    const addonSummaryText = addonsCopy.length > 0
+        ? ` (+ ${addonsCopy.map(a => a.name).join(', ')})`
+        : '';
+
+    // Reset jumlah kembali ke 1 dan bersihkan pilihan add-on setelah masuk keranjang
     p.qty = 1;
+    p.selectedAddons = [];
     const qtyEl = document.getElementById('productQtyDisplay');
     if (qtyEl) qtyEl.innerText = 1;
     updateConfiguratorUI();
 
     updateCartUI();
-    showToast(`🥣 ${variantName} (${addedCount} porsi) berhasil dimasukkan ke keranjang!`);
+    showToast(`🥣 ${variantName}${addonSummaryText} (${addedCount} porsi) berhasil dimasukkan ke keranjang!`);
 }
 
 function addStandaloneAddon(addonId) {
@@ -1706,8 +1663,11 @@ function openPaymentSuccessModal(order) {
         order.cartSnapshot.forEach(item => {
             const itemRow = document.createElement('div');
             itemRow.className = 'receipt-item-row';
+            const addonText = item.addons && item.addons.length > 0
+                ? ` <small style="color: var(--primary-orange); font-weight: 700;">(+ ${item.addons.map(a => a.name).join(', ')})</small>`
+                : '';
             itemRow.innerHTML = `
-                <span><strong>${item.qty}x</strong> ${item.name}</span>
+                <span><strong>${item.qty}x</strong> ${item.name}${addonText}</span>
                 <span>Rp ${(item.unitPrice * item.qty).toLocaleString('id-ID')}</span>
             `;
             itemsContainer.appendChild(itemRow);

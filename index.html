@@ -145,6 +145,60 @@
                         <span class="price-breakdown-tag" id="priceBreakdownTag">Porsi Pas & Pulen</span>
                     </div>
 
+                    <!-- Add-on Topping Configurator -->
+                    <div class="configurator-box">
+                        <div class="configurator-header">
+                            <strong><i class="fa-solid fa-layer-group"></i> Pilih Topping Tambahan (Opsional)</strong>
+                            <span class="addon-rate-hint">Satuan +2rb • Full 15rb</span>
+                        </div>
+                        <div class="config-options-list" id="addonOptionsList">
+                            <!-- Option 1: Choco Crunchy -->
+                            <div class="config-option-card" id="addon-card-choco_crunchy" onclick="toggleAddon('choco_crunchy')">
+                                <div class="config-option-left">
+                                    <input type="checkbox" class="config-checkbox" id="chk-choco_crunchy" onclick="event.stopPropagation(); toggleAddon('choco_crunchy')">
+                                    <div class="config-icon-badge" style="background: #FEF3C7; color: #92400E;">
+                                        <i class="fa-solid fa-cookie-bite"></i>
+                                    </div>
+                                    <div class="config-info">
+                                        <strong>Choco Crunchy</strong>
+                                        <small>Cokelat renyah melimpah</small>
+                                    </div>
+                                </div>
+                                <span class="config-option-price">+Rp 2.000</span>
+                            </div>
+
+                            <!-- Option 2: Oreo -->
+                            <div class="config-option-card" id="addon-card-oreo" onclick="toggleAddon('oreo')">
+                                <div class="config-option-left">
+                                    <input type="checkbox" class="config-checkbox" id="chk-oreo" onclick="event.stopPropagation(); toggleAddon('oreo')">
+                                    <div class="config-icon-badge" style="background: #E0E7FF; color: #1E1B4B;">
+                                        <i class="fa-solid fa-cookie"></i>
+                                    </div>
+                                    <div class="config-info">
+                                        <strong>Oreo Crumb</strong>
+                                        <small>Remahan biskuit Oreo manis gurih</small>
+                                    </div>
+                                </div>
+                                <span class="config-option-price">+Rp 2.000</span>
+                            </div>
+
+                            <!-- Option 3: Topping Full -->
+                            <div class="config-option-card" id="addon-card-topping_full" onclick="toggleAddon('topping_full')">
+                                <div class="config-option-left">
+                                    <input type="checkbox" class="config-checkbox" id="chk-topping_full" onclick="event.stopPropagation(); toggleAddon('topping_full')">
+                                    <div class="config-icon-badge" style="background: #F3E8FF; color: #9333EA;">
+                                        <i class="fa-solid fa-crown"></i>
+                                    </div>
+                                    <div class="config-info">
+                                        <strong>Topping Full (Choco Crunchy + Oreo)</strong>
+                                        <small>Paket komplit ekstra puas (Total Rp 15.000)</small>
+                                    </div>
+                                </div>
+                                <span class="config-option-price">+Rp 5.000</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Order Action Bar: Qty + Add to Cart Button -->
                     <div class="order-action-bar">
                         <div class="order-qty-box">
