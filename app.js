@@ -14,13 +14,13 @@ const state = {
         selectedAddons: []
     },
 
-    // Master Add-on / Topping Tambahan Limited Edition (Satuan 3rb, Topping Full +6rb / Total 16rb)
+    // Master Add-on / Topping Tambahan (Satuan 3rb, Topping Full +6rb / Total 16rb)
     availableAddons: [
         {
             id: 'choco_crunchy',
             name: 'Choco Crunchy',
             price: 3000,
-            maxStock: 10,
+            maxStock: 15,
             imageKey: null,
             icon: 'fa-solid fa-cookie-bite',
             iconBg: '#FEF3C7',
@@ -31,7 +31,7 @@ const state = {
             id: 'oreo',
             name: 'Oreo',
             price: 3000,
-            maxStock: 15,
+            maxStock: null,
             imageKey: null,
             icon: 'fa-solid fa-cookie',
             iconBg: '#E0E7FF',
@@ -42,7 +42,7 @@ const state = {
             id: 'topping_full',
             name: 'Topping Full (Choco Crunchy + Oreo)',
             price: 6000,
-            maxStock: 10,
+            maxStock: 15,
             imageKey: null,
             icon: 'fa-solid fa-crown',
             iconBg: '#F3E8FF',
@@ -153,12 +153,11 @@ function getRemainingToppingStock() {
         }
     });
 
-    const chocoMax = state.availableAddons.find(a => a.id === 'choco_crunchy')?.maxStock || 10;
-    const oreoMax = state.availableAddons.find(a => a.id === 'oreo')?.maxStock || 15;
+    const chocoMax = state.availableAddons.find(a => a.id === 'choco_crunchy')?.maxStock || 15;
 
     const remChoco = Math.max(0, chocoMax - usedChoco);
-    const remOreo = Math.max(0, oreoMax - usedOreo);
-    const remFull = Math.min(remChoco, remOreo);
+    const remOreo = Infinity; // Stok Oreo tidak terbatas
+    const remFull = remChoco; // Topping Full dibatasi oleh stok Choco Crunchy
 
     return {
         choco_crunchy: remChoco,
@@ -180,7 +179,7 @@ function toggleAddon(addonId) {
     } else {
         // Cek apakah kuota masih tersedia
         if (remaining[addonId] <= 0) {
-            const maxQ = addon.maxStock || 10;
+            const maxQ = addon.maxStock || 15;
             showToast(`⚠️ Maaf, stok Limited Edition untuk ${addon.name} sudah habis (${maxQ}/${maxQ} pcs terjual)!`);
             updateConfiguratorUI();
             return;
@@ -201,7 +200,7 @@ function toggleAddon(addonId) {
             const hasOreo = state.product.selectedAddons.some(a => a.id === 'oreo');
             if (hasChoco && hasOreo) {
                 if (remaining.topping_full <= 0) {
-                    showToast('⚠️ Salah satu topping sudah habis untuk paket Topping Full!');
+                    showToast('⚠️ Stok Choco Crunchy sudah habis untuk paket Topping Full!');
                     state.product.selectedAddons.pop();
                     updateConfiguratorUI();
                     return;
@@ -290,10 +289,11 @@ function updateConfiguratorUI() {
     // Update status checkbox, kartu add-on, progress bar & badge stok di UI
     state.availableAddons.forEach(addon => {
         const isSelected = state.product.selectedAddons.some(a => a.id === addon.id);
+        const isUnlimited = addon.maxStock === null;
         const rem = remaining[addon.id] ?? 0;
-        const maxQ = addon.maxStock || 10;
-        const isSoldOut = rem <= 0;
-        const isLowStock = !isSoldOut && rem <= 3;
+        const maxQ = addon.maxStock || 15;
+        const isSoldOut = !isUnlimited && rem <= 0;
+        const isLowStock = !isUnlimited && !isSoldOut && rem <= 3;
 
         const cardEl = document.getElementById(`addon-card-${addon.id}`);
         const chkEl = document.getElementById(`chk-${addon.id}`);
@@ -308,7 +308,7 @@ function updateConfiguratorUI() {
             chkEl.checked = isSelected && !isSoldOut;
             chkEl.disabled = isSoldOut;
         }
-        if (pillEl) {
+        if (!isUnlimited && pillEl) {
             pillEl.classList.remove('sold-out', 'low-stock');
             if (isSoldOut) {
                 pillEl.innerText = `HABIS (0/${maxQ})`;
@@ -316,11 +316,11 @@ function updateConfiguratorUI() {
             } else {
                 pillEl.innerText = addon.id === 'topping_full'
                     ? `Sisa ${rem} paket`
-                    : `Sisa ${rem}/${maxQ} pcs`;
+                    : `Stok: Only ${rem} pcs`;
                 if (isLowStock) pillEl.classList.add('low-stock');
             }
         }
-        if (barEl) {
+        if (!isUnlimited && barEl) {
             const pct = Math.max(0, Math.min(100, Math.round((rem / maxQ) * 100)));
             barEl.style.width = `${pct}%`;
             barEl.classList.remove('low', 'empty');
@@ -437,7 +437,8 @@ function addStandaloneAddon(addonId) {
 
     const remaining = getRemainingToppingStock();
     if ((remaining[addonId] ?? 0) <= 0) {
-        showToast(`⚠️ Kuota Limited Edition ${addon.name} sudah mencapai batas 10 pcs!`);
+        const maxQ = addon.maxStock || 15;
+        showToast(`⚠️ Kuota Limited Edition ${addon.name} sudah mencapai batas ${maxQ} pcs!`);
         return;
     }
 
@@ -472,7 +473,8 @@ function changeCartItemQty(index, delta) {
         const remaining = getRemainingToppingStock();
         for (const addon of item.addons) {
             if ((remaining[addon.id] ?? 0) < delta) {
-                showToast(`⚠️ Kuota Limited Edition (Maks. 10 pcs) untuk ${addon.name} sudah penuh!`);
+                const maxQ = addon.maxStock || 15;
+                showToast(`⚠️ Kuota Limited Edition (Maks. ${maxQ} pcs) untuk ${addon.name} sudah penuh!`);
                 return;
             }
         }
