@@ -14,8 +14,7 @@ const state = {
         selectedAddons: []
     },
 
-    // Master Add-on / Topping Tambahan Limited Edition (Satuan 3rb, Topping Full +6rb / Total 16rb, Kuota 10 pcs per varian)
-    maxToppingQuota: 10,
+    // Master Add-on / Topping Tambahan Limited Edition (Satuan 3rb, Topping Full +6rb / Total 16rb)
     availableAddons: [
         {
             id: 'choco_crunchy',
@@ -32,7 +31,7 @@ const state = {
             id: 'oreo',
             name: 'Oreo',
             price: 3000,
-            maxStock: 10,
+            maxStock: 15,
             imageKey: null,
             icon: 'fa-solid fa-cookie',
             iconBg: '#E0E7FF',
@@ -154,9 +153,11 @@ function getRemainingToppingStock() {
         }
     });
 
-    const maxQuota = state.maxToppingQuota || 10;
-    const remChoco = Math.max(0, maxQuota - usedChoco);
-    const remOreo = Math.max(0, maxQuota - usedOreo);
+    const chocoMax = state.availableAddons.find(a => a.id === 'choco_crunchy')?.maxStock || 10;
+    const oreoMax = state.availableAddons.find(a => a.id === 'oreo')?.maxStock || 15;
+
+    const remChoco = Math.max(0, chocoMax - usedChoco);
+    const remOreo = Math.max(0, oreoMax - usedOreo);
     const remFull = Math.min(remChoco, remOreo);
 
     return {
@@ -179,7 +180,8 @@ function toggleAddon(addonId) {
     } else {
         // Cek apakah kuota masih tersedia
         if (remaining[addonId] <= 0) {
-            showToast(`⚠️ Maaf, kuota Limited Edition untuk ${addon.name} sudah habis (10/10 pcs terjual)!`);
+            const maxQ = addon.maxStock || 10;
+            showToast(`⚠️ Maaf, stok Limited Edition untuk ${addon.name} sudah habis (${maxQ}/${maxQ} pcs terjual)!`);
             updateConfiguratorUI();
             return;
         }
@@ -217,7 +219,7 @@ function toggleAddon(addonId) {
             state.product.qty = maxAllowed;
             const qtyEl = document.getElementById('productQtyDisplay');
             if (qtyEl) qtyEl.innerText = state.product.qty;
-            showToast(`ℹ️ Jumlah porsi disesuaikan ke sisa kuota topping (${maxAllowed} pcs).`);
+            showToast(`ℹ️ Jumlah porsi disesuaikan ke sisa stok topping (${maxAllowed} pcs).`);
         }
     }
 
@@ -262,7 +264,7 @@ function changeProductQty(delta) {
         const remaining = getRemainingToppingStock();
         const maxAllowed = getMaxAllowedQtyForSelectedAddons(remaining);
         if (nextQty > maxAllowed) {
-            showToast(`⚠️ Kuota Limited Edition untuk topping pilihanmu tersisa ${maxAllowed} pcs!`);
+            showToast(`⚠️ Stok Limited Edition untuk topping pilihanmu tersisa ${maxAllowed} pcs!`);
             return;
         }
     }
@@ -276,9 +278,8 @@ function changeProductQty(delta) {
 
 function updateConfiguratorUI() {
     const remaining = getRemainingToppingStock();
-    const maxQuota = state.maxToppingQuota || 10;
 
-    // Pastikan jika stok tiba-tiba habis (misal setelah masuk keranjang), uncheck otomatis
+    // Pastikan jika stok tiba-tiba habis (misal setelah masuk keranjang / checkout), uncheck otomatis
     state.product.selectedAddons = state.product.selectedAddons.filter(a => (remaining[a.id] ?? 0) > 0);
 
     // Hitung harga satuan + add-on terpilih
@@ -286,15 +287,18 @@ function updateConfiguratorUI() {
     const unitPrice = state.product.basePrice + addonsPrice;
     const totalPrice = unitPrice * state.product.qty;
 
-    // Update status checkbox, kartu add-on & badge kuota Limited Edition di UI
+    // Update status checkbox, kartu add-on, progress bar & badge stok di UI
     state.availableAddons.forEach(addon => {
         const isSelected = state.product.selectedAddons.some(a => a.id === addon.id);
         const rem = remaining[addon.id] ?? 0;
+        const maxQ = addon.maxStock || 10;
         const isSoldOut = rem <= 0;
+        const isLowStock = !isSoldOut && rem <= 3;
 
         const cardEl = document.getElementById(`addon-card-${addon.id}`);
         const chkEl = document.getElementById(`chk-${addon.id}`);
         const pillEl = document.getElementById(`stock-pill-${addon.id}`);
+        const barEl = document.getElementById(`stock-bar-${addon.id}`);
 
         if (cardEl) {
             cardEl.classList.toggle('active', isSelected && !isSoldOut);
@@ -305,15 +309,23 @@ function updateConfiguratorUI() {
             chkEl.disabled = isSoldOut;
         }
         if (pillEl) {
+            pillEl.classList.remove('sold-out', 'low-stock');
             if (isSoldOut) {
-                pillEl.innerText = 'HABIS (0/10)';
+                pillEl.innerText = `HABIS (0/${maxQ})`;
                 pillEl.classList.add('sold-out');
             } else {
                 pillEl.innerText = addon.id === 'topping_full'
                     ? `Sisa ${rem} paket`
-                    : `Sisa ${rem}/${maxQuota} pcs`;
-                pillEl.classList.remove('sold-out');
+                    : `Sisa ${rem}/${maxQ} pcs`;
+                if (isLowStock) pillEl.classList.add('low-stock');
             }
+        }
+        if (barEl) {
+            const pct = Math.max(0, Math.min(100, Math.round((rem / maxQ) * 100)));
+            barEl.style.width = `${pct}%`;
+            barEl.classList.remove('low', 'empty');
+            if (isSoldOut) barEl.classList.add('empty');
+            else if (isLowStock) barEl.classList.add('low');
         }
     });
 
@@ -1226,6 +1238,7 @@ async function clearOrdersLog() {
     localStorage.removeItem('bite_chill_orders');
     state.lastVerifiedOrder = null;
     renderOrdersTable();
+    updateConfiguratorUI();
 
     // 2. Bersihkan Google Spreadsheet jika endpoint aktif
     if (state.sheetsEndpointURL) {
@@ -1720,8 +1733,9 @@ function handleFormSubmit(e) {
                 adminWA: state.targetWA
             };
 
-            // Bersihkan keranjang dan input bukti
+            // Bersihkan keranjang dan perbarui tampilan stok secara permanen
             state.cart = [];
+            updateConfiguratorUI();
             updateCartUI();
             removeProofFile();
             const refInput = document.getElementById('qrisRefNumber');
@@ -1772,12 +1786,17 @@ function handleFormSubmit(e) {
         proofFilename: null
     };
 
-    saveOrderLocally(orderData);
-    syncOrderToSpreadsheet(orderData);
-
     const message = generateWAMessage();
     const encodedMessage = encodeURIComponent(message);
     const waURL = `https://wa.me/${state.targetWA}?text=${encodedMessage}`;
+
+    saveOrderLocally(orderData);
+    syncOrderToSpreadsheet(orderData);
+
+    // Kosongkan keranjang setelah checkout COD & potong stok secara permanen
+    state.cart = [];
+    updateConfiguratorUI();
+    updateCartUI();
 
     if (typeof confetti === 'function') {
         confetti({
