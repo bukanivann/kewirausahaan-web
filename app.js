@@ -14,37 +14,41 @@ const state = {
         selectedAddons: []
     },
 
-    // Master Add-on / Topping Tambahan (Satuan 2rb, Topping Full +5rb / Total 15rb)
+    // Master Add-on / Topping Tambahan Limited Edition (Satuan 3rb, Topping Full +6rb / Total 16rb, Kuota 10 pcs per varian)
+    maxToppingQuota: 10,
     availableAddons: [
         {
             id: 'choco_crunchy',
             name: 'Choco Crunchy',
-            price: 2000,
+            price: 3000,
+            maxStock: 10,
             imageKey: null,
             icon: 'fa-solid fa-cookie-bite',
             iconBg: '#FEF3C7',
             iconColor: '#92400E',
-            label: 'Choco Crunchy (+Rp 2.000)'
+            label: 'Choco Crunchy (+Rp 3.000)'
         },
         {
             id: 'oreo',
             name: 'Oreo',
-            price: 2000,
+            price: 3000,
+            maxStock: 10,
             imageKey: null,
             icon: 'fa-solid fa-cookie',
             iconBg: '#E0E7FF',
             iconColor: '#1E1B4B',
-            label: 'Oreo (+Rp 2.000)'
+            label: 'Oreo (+Rp 3.000)'
         },
         {
             id: 'topping_full',
             name: 'Topping Full (Choco Crunchy + Oreo)',
-            price: 5000,
+            price: 6000,
+            maxStock: 10,
             imageKey: null,
             icon: 'fa-solid fa-crown',
             iconBg: '#F3E8FF',
             iconColor: '#9333EA',
-            label: 'Topping Full (+Rp 5.000)'
+            label: 'Topping Full (+Rp 6.000)'
         }
     ],
 
@@ -98,27 +102,90 @@ document.addEventListener('DOMContentLoaded', () => {
     updateWAPreview();
     setupProofDropzone();
 
+    // Sinkronkan kuota dari Google Spreadsheet secara silent saat halaman dibuka
+    fetchLiveOrdersFromSpreadsheet(true);
+
     // Cegah browser membuka file secara default saat ada file diseret ke luar dropzone
     window.addEventListener('dragover', (e) => e.preventDefault(), false);
     window.addEventListener('drop', (e) => e.preventDefault(), false);
 });
 
 // ==========================================================================
-// 1. DYNAMIC GALLERY & ADD-ON CONFIGURATOR LOGIC
+// 1. DYNAMIC GALLERY, LIMITED STOCK & ADD-ON CONFIGURATOR LOGIC
 // ==========================================================================
+
+function getRemainingToppingStock() {
+    let usedChoco = 0;
+    let usedOreo = 0;
+
+    // 1. Hitung dari pesanan yang sudah tercatat (LocalStorage / tersinkron Spreadsheet)
+    const orders = getLocalOrders();
+    orders.forEach(order => {
+        const summary = order.itemsSummary || '';
+        const parts = summary.split(';');
+        parts.forEach(part => {
+            const qtyMatch = part.match(/\((\d+)x\)/);
+            const qty = qtyMatch ? parseInt(qtyMatch[1], 10) : 1;
+            const lower = part.toLowerCase();
+            if (lower.includes('topping full')) {
+                usedChoco += qty;
+                usedOreo += qty;
+            } else {
+                if (lower.includes('choco crunchy')) usedChoco += qty;
+                if (lower.includes('oreo')) usedOreo += qty;
+            }
+        });
+    });
+
+    // 2. Hitung dari item yang sedang ada di keranjang saat ini
+    state.cart.forEach(item => {
+        const qty = item.qty || 1;
+        if (item.addons && item.addons.length > 0) {
+            item.addons.forEach(a => {
+                if (a.id === 'topping_full') {
+                    usedChoco += qty;
+                    usedOreo += qty;
+                } else if (a.id === 'choco_crunchy') {
+                    usedChoco += qty;
+                } else if (a.id === 'oreo') {
+                    usedOreo += qty;
+                }
+            });
+        }
+    });
+
+    const maxQuota = state.maxToppingQuota || 10;
+    const remChoco = Math.max(0, maxQuota - usedChoco);
+    const remOreo = Math.max(0, maxQuota - usedOreo);
+    const remFull = Math.min(remChoco, remOreo);
+
+    return {
+        choco_crunchy: remChoco,
+        oreo: remOreo,
+        topping_full: remFull
+    };
+}
 
 function toggleAddon(addonId) {
     const addon = state.availableAddons.find(a => a.id === addonId);
     if (!addon) return;
 
     const existingIdx = state.product.selectedAddons.findIndex(a => a.id === addonId);
+    const remaining = getRemainingToppingStock();
 
     if (existingIdx > -1) {
         // Uncheck / hapus addon
         state.product.selectedAddons.splice(existingIdx, 1);
     } else {
+        // Cek apakah kuota masih tersedia
+        if (remaining[addonId] <= 0) {
+            showToast(`⚠️ Maaf, kuota Limited Edition untuk ${addon.name} sudah habis (10/10 pcs terjual)!`);
+            updateConfiguratorUI();
+            return;
+        }
+
         if (addonId === 'topping_full') {
-            // Jika pilih Topping Full, otomatis uncheck satuan dan pakai Topping Full (Rp 15.000)
+            // Jika pilih Topping Full, otomatis uncheck satuan dan pakai Topping Full (Rp 16.000)
             state.product.selectedAddons = [addon];
         } else {
             // Hapus Topping Full dulu jika sebelumnya aktif
@@ -127,19 +194,44 @@ function toggleAddon(addonId) {
             );
             state.product.selectedAddons.push(addon);
 
-            // Jika Choco Crunchy & Oreo dicentang dua-duanya sekaligus, otomatis jadikan Topping Full (Rp 15.000)
+            // Jika Choco Crunchy & Oreo dicentang dua-duanya sekaligus, otomatis jadikan Topping Full (Rp 16.000)
             const hasChoco = state.product.selectedAddons.some(a => a.id === 'choco_crunchy');
             const hasOreo = state.product.selectedAddons.some(a => a.id === 'oreo');
             if (hasChoco && hasOreo) {
+                if (remaining.topping_full <= 0) {
+                    showToast('⚠️ Salah satu topping sudah habis untuk paket Topping Full!');
+                    state.product.selectedAddons.pop();
+                    updateConfiguratorUI();
+                    return;
+                }
                 const fullAddon = state.availableAddons.find(a => a.id === 'topping_full');
                 if (fullAddon) {
                     state.product.selectedAddons = [fullAddon];
                 }
             }
         }
+
+        // Sesuaikan jumlah porsi jika melebihi sisa stok topping yang dipilih
+        const maxAllowed = getMaxAllowedQtyForSelectedAddons(remaining);
+        if (state.product.qty > maxAllowed && maxAllowed > 0) {
+            state.product.qty = maxAllowed;
+            const qtyEl = document.getElementById('productQtyDisplay');
+            if (qtyEl) qtyEl.innerText = state.product.qty;
+            showToast(`ℹ️ Jumlah porsi disesuaikan ke sisa kuota topping (${maxAllowed} pcs).`);
+        }
     }
 
     updateConfiguratorUI();
+}
+
+function getMaxAllowedQtyForSelectedAddons(remaining = getRemainingToppingStock()) {
+    if (state.product.selectedAddons.length === 0) return 999;
+    let maxAllowed = 999;
+    state.product.selectedAddons.forEach(a => {
+        const rem = remaining[a.id] ?? 0;
+        if (rem < maxAllowed) maxAllowed = rem;
+    });
+    return maxAllowed;
 }
 
 function switchGalleryView(galleryKey) {
@@ -165,7 +257,16 @@ function switchGalleryView(galleryKey) {
 }
 
 function changeProductQty(delta) {
-    state.product.qty = Math.max(1, state.product.qty + delta);
+    const nextQty = Math.max(1, state.product.qty + delta);
+    if (delta > 0 && state.product.selectedAddons.length > 0) {
+        const remaining = getRemainingToppingStock();
+        const maxAllowed = getMaxAllowedQtyForSelectedAddons(remaining);
+        if (nextQty > maxAllowed) {
+            showToast(`⚠️ Kuota Limited Edition untuk topping pilihanmu tersisa ${maxAllowed} pcs!`);
+            return;
+        }
+    }
+    state.product.qty = nextQty;
     const qtyEl = document.getElementById('productQtyDisplay');
     if (qtyEl) {
         qtyEl.innerText = state.product.qty;
@@ -174,18 +275,46 @@ function changeProductQty(delta) {
 }
 
 function updateConfiguratorUI() {
+    const remaining = getRemainingToppingStock();
+    const maxQuota = state.maxToppingQuota || 10;
+
+    // Pastikan jika stok tiba-tiba habis (misal setelah masuk keranjang), uncheck otomatis
+    state.product.selectedAddons = state.product.selectedAddons.filter(a => (remaining[a.id] ?? 0) > 0);
+
     // Hitung harga satuan + add-on terpilih
     const addonsPrice = state.product.selectedAddons.reduce((sum, a) => sum + a.price, 0);
     const unitPrice = state.product.basePrice + addonsPrice;
     const totalPrice = unitPrice * state.product.qty;
 
-    // Update status checkbox & kartu add-on di UI
+    // Update status checkbox, kartu add-on & badge kuota Limited Edition di UI
     state.availableAddons.forEach(addon => {
         const isSelected = state.product.selectedAddons.some(a => a.id === addon.id);
+        const rem = remaining[addon.id] ?? 0;
+        const isSoldOut = rem <= 0;
+
         const cardEl = document.getElementById(`addon-card-${addon.id}`);
         const chkEl = document.getElementById(`chk-${addon.id}`);
-        if (cardEl) cardEl.classList.toggle('active', isSelected);
-        if (chkEl) chkEl.checked = isSelected;
+        const pillEl = document.getElementById(`stock-pill-${addon.id}`);
+
+        if (cardEl) {
+            cardEl.classList.toggle('active', isSelected && !isSoldOut);
+            cardEl.classList.toggle('sold-out', isSoldOut);
+        }
+        if (chkEl) {
+            chkEl.checked = isSelected && !isSoldOut;
+            chkEl.disabled = isSoldOut;
+        }
+        if (pillEl) {
+            if (isSoldOut) {
+                pillEl.innerText = 'HABIS (0/10)';
+                pillEl.classList.add('sold-out');
+            } else {
+                pillEl.innerText = addon.id === 'topping_full'
+                    ? `Sisa ${rem} paket`
+                    : `Sisa ${rem}/${maxQuota} pcs`;
+                pillEl.classList.remove('sold-out');
+            }
+        }
     });
 
     // Update Banner Harga
@@ -229,6 +358,19 @@ function updateConfiguratorUI() {
 function addConfiguredProductToCart() {
     const p = state.product;
     const addonsCopy = [...p.selectedAddons];
+
+    // Validasi kuota Limited Edition 10 pcs sebelum masuk keranjang
+    if (addonsCopy.length > 0) {
+        const remaining = getRemainingToppingStock();
+        for (const addon of addonsCopy) {
+            const rem = remaining[addon.id] ?? 0;
+            if (p.qty > rem) {
+                showToast(`⚠️ Kuota Limited Edition ${addon.name} hanya tersisa ${rem} pcs!`);
+                return;
+            }
+        }
+    }
+
     const addonsPrice = addonsCopy.reduce((sum, a) => sum + a.price, 0);
     const unitPrice = p.basePrice + addonsPrice;
     const variantName = p.name;
@@ -281,6 +423,12 @@ function addStandaloneAddon(addonId) {
     const addon = state.availableAddons.find(a => a.id === addonId);
     if (!addon) return;
 
+    const remaining = getRemainingToppingStock();
+    if ((remaining[addonId] ?? 0) <= 0) {
+        showToast(`⚠️ Kuota Limited Edition ${addon.name} sudah mencapai batas 10 pcs!`);
+        return;
+    }
+
     const cartItemId = `addon__${addon.id}`;
     const existingIndex = state.cart.findIndex(i => i.cartItemId === cartItemId);
 
@@ -299,17 +447,30 @@ function addStandaloneAddon(addonId) {
         });
     }
 
+    updateConfiguratorUI();
     updateCartUI();
     showToast(`✨ ${addon.name} ditambahkan ke keranjang!`);
 }
 
 function changeCartItemQty(index, delta) {
-    if (!state.cart[index]) return;
+    const item = state.cart[index];
+    if (!item) return;
 
-    state.cart[index].qty += delta;
-    if (state.cart[index].qty <= 0) {
+    if (delta > 0 && item.addons && item.addons.length > 0) {
+        const remaining = getRemainingToppingStock();
+        for (const addon of item.addons) {
+            if ((remaining[addon.id] ?? 0) < delta) {
+                showToast(`⚠️ Kuota Limited Edition (Maks. 10 pcs) untuk ${addon.name} sudah penuh!`);
+                return;
+            }
+        }
+    }
+
+    item.qty += delta;
+    if (item.qty <= 0) {
         removeFromCart(index);
     } else {
+        updateConfiguratorUI();
         updateCartUI();
     }
 }
@@ -323,6 +484,7 @@ function removeFromCart(index) {
     } else if (removed.length > 0) {
         showToast(`Pesanan ${removed[0].name} dihapus.`);
     }
+    updateConfiguratorUI();
     updateCartUI();
 }
 
@@ -1205,6 +1367,7 @@ async function fetchLiveOrdersFromSpreadsheet(isSilent = false) {
 
             localStorage.setItem('kethai_co_orders', JSON.stringify(syncedOrders));
             renderOrdersTable();
+            updateConfiguratorUI();
 
             // Update live tracker jika struk aktif sedang tampil
             if (state.lastVerifiedOrder) {
